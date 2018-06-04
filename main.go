@@ -14,16 +14,14 @@ func main() {
 	fmt.Printf("title: %v\n", feed.Title)
 	fmt.Printf("description: %v\n", feed.Description)
 
-	// func for filterling feed-items cvss-v3
+	// func for filterling feed-items cvss-v3 > 7
 	f := func(item *gofeed.Item) bool {
 		cvssSets := item.Extensions["sec"]["cvss"]
-		if len(cvssSets) > 0 {
-			for _, cvss := range cvssSets {
-				if cvss.Attrs["version"] == "3.0" && strings.Compare(cvss.Attrs["score"], "7.0") >= 0 {
-					return true
-				} else {
-					continue
-				}
+		for _, cvss := range cvssSets {
+			if cvss.Attrs["version"] == "3.0" && strings.Compare(cvss.Attrs["score"], "7.0") >= 0 {
+				return true
+			} else {
+				continue
 			}
 		}
 		return false
